@@ -1,0 +1,16 @@
+{
+  "name": "express-walkthrough",
+  "version": "1.0.0",
+  "description": "A simple program demonstrating express knowledge",
+  "main": "apps.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "Josh Wassum",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2"
+  }
+}
