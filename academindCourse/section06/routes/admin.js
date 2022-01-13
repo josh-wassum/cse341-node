@@ -6,7 +6,11 @@ const rootDir = require('../util/path');
 
 const router = express.Router();
 
-const products = [];
+const products = [
+    {title: 'Elantris', description: 'A great fantasy novel by Brandon Sanderson.', price: '12.99'},
+    {title: 'Dune', description: 'An epic space opera written by Frank Herbert.', price: '18.99'},
+    {title: 'Complete Lord of the Rings: Collectors Edition', description: "Experience Tolkien's epic fantasy novel like never before.", price: '39.99'}
+];
 
 router.get('/add-product',(req, res, next) => {
     res.render('add-product', 
@@ -19,7 +23,7 @@ router.get('/add-product',(req, res, next) => {
 });
 
 router.post('/add-product',(req, res, next) =>{
-    products.push({title: req.body.title});
+    products.push({title: req.body.title, description: req.body.description, price: req.body.price});
     res.redirect('/');
 });
 
