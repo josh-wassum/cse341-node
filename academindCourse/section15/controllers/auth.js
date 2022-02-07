@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
@@ -6,7 +7,7 @@ const User = require('../models/user')
 
 const transporter = nodemailer.createTransport(sendgridTransport({
   auth: {
-    api_key: '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'
+    api_key: process.env.EMAIL_API
   }
 }));
 
@@ -42,30 +43,30 @@ exports.getSignup = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-    User.findOne({email: email})
+  User.findOne({ email: email })
     .then(user => {
       if (!user) {
         req.flash('error', 'Invalid email or password.');
-        res.redirect('/login');
+        return res.redirect('/login');
       }
-      bcrypt.compare(password, user.password)
-      .then(doMatch => {
-        if (doMatch) {
-          req.session.isLoggedIn = true;
-          req.session.user = user;
-          return req.session.save((err) => {
-            console.log(err);
-            res.redirect('/');
-      });
-        }
-        req.flash('error', 'Invalid email or password.');
-        res.redirect('login');
-      })
-      .catch(err => {
-        console.log(err);
-        res.redirect('/login');
-      });
-      
+      bcrypt
+        .compare(password, user.password)
+        .then(doMatch => {
+          if (doMatch) {
+            req.session.isLoggedIn = true;
+            req.session.user = user;
+            return req.session.save(err => {
+              console.log(err);
+              res.redirect('/');
+            });
+          }
+          req.flash('error', 'Invalid email or password.');
+          res.redirect('/login');
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('/login');
+        });
     })
     .catch(err => console.log(err));
 };
