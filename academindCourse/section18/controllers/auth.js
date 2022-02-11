@@ -25,8 +25,8 @@ exports.getLogin = (req, res, next) => {
     pageTitle: 'Login',
     errorMessage: message,
     oldInput: {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     },
     validationErrors: []
   });
@@ -44,9 +44,9 @@ exports.getSignup = (req, res, next) => {
     pageTitle: 'Signup',
     errorMessage: message, 
     oldInput: {
-      email: "",
-      password: "",
-      confirmPassword: ""
+      email: '',
+      password: '',
+      confirmPassword: ''
     },
     validationErrors: []
   });
@@ -57,7 +57,7 @@ exports.postLogin = (req, res, next) => {
   const password = req.body.password;
 
   const errors = validationResult(req);
-  if(!errors.isEmpty){
+  if (!errors.isEmpty()) {
     return res.status(422).render('auth/login', {
       path: '/login',
       pageTitle: 'Login',
@@ -76,12 +76,12 @@ exports.postLogin = (req, res, next) => {
         return res.status(422).render('auth/login', {
           path: '/login',
           pageTitle: 'Login',
-          errorMessage: errors.array()[0].msg,
+          errorMessage: 'Invalid email or password.',
           oldInput: {
             email: email,
             password: password
           },
-          validationErrors: errors.array({param: email, param: password})
+          validationErrors: []
         });
       }
       bcrypt
@@ -98,12 +98,12 @@ exports.postLogin = (req, res, next) => {
           return res.status(422).render('auth/login', {
             path: '/login',
             pageTitle: 'Login',
-            errorMessage: errors.array()[0].msg,
+            errorMessage: 'Invalid email or password.',
             oldInput: {
               email: email,
               password: password
             },
-            validationErrors: errors.array({param: email, param: password})
+            validationErrors: []
           });
         })
         .catch(err => {
@@ -130,8 +130,8 @@ exports.postSignup = (req, res, next) => {
       pageTitle: 'Signup',
       errorMessage: errors.array()[0].msg,
       oldInput: {
-        email: email, 
-        password: password, 
+        email: email,
+        password: password,
         confirmPassword: req.body.confirmPassword
       },
       validationErrors: errors.array()
@@ -150,12 +150,6 @@ exports.postSignup = (req, res, next) => {
     })
     .then(result => {
       res.redirect('/login');
-      return transporter.sendMail({
-        to: email,
-        from: 'was21005@byui.edu',
-        subject: 'Signup succeeded',
-        html: '<h1>You successfully signed up</h1>'
-      });
     })
     .catch(err => {
       const error = new Error(err);
