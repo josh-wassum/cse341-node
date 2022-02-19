@@ -166,22 +166,3 @@ exports.postDeleteProduct = (req, res, next) => {
     });
 };
 
-exports.getEditProfile = (req, res, next) => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
-  res.render('admin/edit-profile', {
-    path: '/admin/edit-profile',
-    pageTitle: 'Edit Profile',
-    errorMessage: message, 
-    oldInput: {
-      email: '',
-      password: '',
-      confirmPassword: ''
-    },
-    validationErrors: []
-  });
-};

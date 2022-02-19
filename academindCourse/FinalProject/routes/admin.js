@@ -1,7 +1,7 @@
 const path = require('path');
 
 const express = require('express');
-const { body } = require('express-validator/check');
+const { check, body } = require('express-validator/check');
 
 const adminController = require('../controllers/admin');
 const isAuth = require('../middleware/is-auth');
@@ -54,6 +54,5 @@ router.post('/edit-product',
 
 router.post('/delete-product', isAuth, adminController.postDeleteProduct);
 
-router.get('/edit-profile', isAuth, adminController.getEditProfile);
 
 module.exports = router;
